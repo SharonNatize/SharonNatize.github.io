@@ -149,9 +149,9 @@ img, svg { display: block; }
     flex-direction: column;
     position: relative;
     flex: 0 0 68%;
-    opacity: 0.35;
-    transform: scale(0.88);
-    filter: blur(2px);
+    opacity: 0.3;
+    transform: scale(0.82);
+    filter: blur(3px);
     cursor: pointer;
     transition: opacity 0.5s ease, transform 0.5s ease, filter 0.5s ease,
                 border-color var(--transition), box-shadow var(--transition);
