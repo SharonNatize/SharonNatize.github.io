@@ -1,66 +1,42 @@
 // ===========================================
 //  SHARON NATIVIDAD · PORTFOLIO
-//  script.js
+//  script.js · v2 · Peek Carousel mejorado
 // ===========================================
 
-// ----- Año actual en el footer -----
 document.getElementById('year').textContent = new Date().getFullYear();
 
-
-// ----- Navbar: cambio de estilo al hacer scroll -----
+// ===== NAVBAR =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-
-// ----- Menú hamburguesa (móvil) -----
+// ===== MENÚ HAMBURGUESA =====
 const navToggle = document.getElementById('navToggle');
 const navMenu   = document.getElementById('navMenu');
 
 navToggle.addEventListener('click', () => {
     const isOpen = navMenu.classList.toggle('open');
     const spans  = navToggle.querySelectorAll('span');
-
     if (isOpen) {
         spans[0].style.transform = 'translateY(7px) rotate(45deg)';
         spans[1].style.opacity   = '0';
         spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
-        navToggle.setAttribute('aria-label', 'Cerrar menú');
     } else {
         spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
-        navToggle.setAttribute('aria-label', 'Abrir menú');
     }
 });
 
-// Cerrar el menú al hacer clic en un enlace
 navMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('open');
-        navToggle.querySelectorAll('span').forEach(s => {
-            s.style.transform = '';
-            s.style.opacity   = '';
-        });
-        navToggle.setAttribute('aria-label', 'Abrir menú');
+        navToggle.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
     });
 });
 
-// Cerrar menú con Escape
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && navMenu.classList.contains('open')) {
-        navMenu.classList.remove('open');
-        navToggle.querySelectorAll('span').forEach(s => {
-            s.style.transform = '';
-            s.style.opacity   = '';
-        });
-        navToggle.setAttribute('aria-label', 'Abrir menú');
-    }
-});
-
-
-// ----- Animaciones de entrada con Intersection Observer -----
+// ===== ANIMACIONES FADE-IN =====
 const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             observer.unobserve(entry.target);
@@ -68,14 +44,12 @@ const observer = new IntersectionObserver(entries => {
     });
 }, { threshold: 0.12 });
 
-// Escalonar la entrada de las tarjetas de proyecto
 document.querySelectorAll('.fade-in').forEach((el, i) => {
     el.style.transitionDelay = `${i * 0.1}s`;
     observer.observe(el);
 });
 
-
-// ----- Carousel de proyectos -----
+// ===== PEEK CAROUSEL =====
 const viewport  = document.querySelector('.carousel-viewport');
 const track     = document.getElementById('carouselTrack');
 const prevBtn   = document.getElementById('carouselPrev');
@@ -101,10 +75,15 @@ prevBtn.addEventListener('click', () => goTo(current - 1));
 nextBtn.addEventListener('click', () => goTo(current + 1));
 dotBtns.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
 
+// Clic en card lateral navega; clic en thumb de card activa lo maneja el modal
 cardItems.forEach((card, i) => {
-    card.addEventListener('click', () => { if (i !== current) goTo(i); });
+    card.addEventListener('click', e => {
+        if (i === current && e.target.closest('.card-thumb')) return;
+        if (i !== current) goTo(i);
+    });
 });
 
+// Swipe móvil
 let touchStartX = 0;
 viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
 viewport.addEventListener('touchend', e => {
@@ -112,20 +91,29 @@ viewport.addEventListener('touchend', e => {
     if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
 });
 
+// Navegación con teclado (solo cuando el modal está cerrado)
+document.addEventListener('keydown', e => {
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+    if (modalOverlay.classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+});
+
 window.addEventListener('resize', () => goTo(current));
 goTo(0);
 
-
-// ----- Modal de demo -----
+// ===== MODAL DE DEMO =====
 const modalOverlay = document.getElementById('demoModal');
 const modalVideo   = document.getElementById('modalVideo');
 const modalClose   = document.getElementById('modalClose');
 
-document.querySelectorAll('.card-thumb').forEach(thumb => {
-    thumb.addEventListener('click', () => {
+document.querySelectorAll('.card-thumb').forEach((thumb, i) => {
+    thumb.addEventListener('click', e => {
+        if (i !== current) return;
+        e.stopPropagation();
         modalVideo.src = thumb.dataset.video;
         modalOverlay.classList.add('open');
-        modalVideo.play();
+        modalVideo.play().catch(() => {});
     });
 });
 
@@ -136,15 +124,12 @@ function closeModal() {
 }
 
 modalClose.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', e => {
-    if (e.target === modalOverlay) closeModal();
-});
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
 });
 
-
-// ----- Smooth scroll para los enlaces de navegación -----
+// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const target = document.querySelector(this.getAttribute('href'));
