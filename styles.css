@@ -107,7 +107,7 @@ img, svg { display: block; }
 
 .carousel-btn {
     position: absolute;
-    top: calc(50% - 1.5rem);
+    top: calc(1rem + 110px);
     transform: translateY(-50%);
     z-index: 10;
     width: 46px;
