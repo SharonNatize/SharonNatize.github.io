@@ -75,6 +75,75 @@ document.querySelectorAll('.fade-in').forEach((el, i) => {
 });
 
 
+// ----- Carousel de proyectos -----
+const viewport  = document.querySelector('.carousel-viewport');
+const track     = document.getElementById('carouselTrack');
+const prevBtn   = document.getElementById('carouselPrev');
+const nextBtn   = document.getElementById('carouselNext');
+const dotBtns   = document.querySelectorAll('#carouselDots .dot');
+const cardItems = track.querySelectorAll('.project-card');
+let current = 0;
+
+function goTo(index) {
+    current = Math.max(0, Math.min(index, cardItems.length - 1));
+    const viewW    = viewport.offsetWidth;
+    const cardW    = cardItems[0].offsetWidth;
+    const cardLeft = cardItems[current].offsetLeft;
+    const offset   = (viewW - cardW) / 2 - cardLeft;
+    track.style.transform = `translateX(${offset}px)`;
+    cardItems.forEach((c, i) => c.classList.toggle('is-active', i === current));
+    dotBtns.forEach((d, i) => d.classList.toggle('active', i === current));
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === cardItems.length - 1;
+}
+
+prevBtn.addEventListener('click', () => goTo(current - 1));
+nextBtn.addEventListener('click', () => goTo(current + 1));
+dotBtns.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+
+cardItems.forEach((card, i) => {
+    card.addEventListener('click', () => { if (i !== current) goTo(i); });
+});
+
+let touchStartX = 0;
+viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+viewport.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+});
+
+window.addEventListener('resize', () => goTo(current));
+goTo(0);
+
+
+// ----- Modal de demo -----
+const modalOverlay = document.getElementById('demoModal');
+const modalVideo   = document.getElementById('modalVideo');
+const modalClose   = document.getElementById('modalClose');
+
+document.querySelectorAll('.card-thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+        modalVideo.src = thumb.dataset.video;
+        modalOverlay.classList.add('open');
+        modalVideo.play();
+    });
+});
+
+function closeModal() {
+    modalOverlay.classList.remove('open');
+    modalVideo.pause();
+    modalVideo.src = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) closeModal();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('open')) closeModal();
+});
+
+
 // ----- Smooth scroll para los enlaces de navegación -----
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
