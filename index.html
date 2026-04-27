@@ -11,7 +11,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=5">
 </head>
 
 <body>
@@ -37,8 +37,8 @@
         <div class="hero-left">
             <span class="hero-tag">Automatización de Procesos</span>
             <h1 class="hero-name">Sharon<br><span class="gradient-text">Natividad</span></h1>
-            <p class="hero-subtitle">Convierto procesos manuales en sistemas eficientes con Python, VBA y Google
-                Workspace.</p>
+            <p class="hero-subtitle">Convierto procesos manuales en sistemas eficientes y dashboards accionables
+                con Python, VBA y Google Workspace.</p>
             <div class="hero-cta">
                 <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
                 <a href="https://wa.me/51949782397?text=Hola%20Sharon%2C%20vi%20tu%20portafolio%21"
@@ -59,24 +59,22 @@
                         <span class="dot-yellow"></span>
                         <span class="dot-green"></span>
                     </div>
-                    <span class="code-fname">automate.py</span>
+                    <span class="code-fname">dashboard.gs</span>
                 </div>
                 <div class="code-body">
-                    <pre><span class="c-kw">from</span> selenium <span class="c-kw">import</span> webdriver
-<span class="c-kw">from</span> tools <span class="c-kw">import</span> ProcessBot
+                    <pre><span class="c-kw">const</span> sheet = SpreadsheetApp
+  .<span class="c-fn">getActive</span>()
+  .<span class="c-fn">getSheetByName</span>(<span class="c-str">"Ventas"</span>);
 
-<span class="c-cm"># Automatizar guías de remisión</span>
-bot = ProcessBot(
-    engine=<span class="c-str">"chromium"</span>,
-    url=<span class="c-str">"efact.pe"</span>
-)
+<span class="c-kw">const</span> data = sheet.<span class="c-fn">getDataRange</span>().<span class="c-fn">getValues</span>();
 
-<span class="c-kw">for</span> guia <span class="c-kw">in</span> pendientes:
-    bot.fill(guia)
-    bot.submit()
-    <span class="c-fn">print</span>(<span class="c-str">f"✓ {guia.id} ok"</span>)
+<span class="c-cm">// Refrescar KPIs en vivo</span>
+<span class="c-kw">for</span> (<span class="c-kw">const</span> row <span class="c-kw">of</span> data) {
+  Dashboard.<span class="c-fn">update</span>(row);
+  Logger.<span class="c-fn">log</span>(<span class="c-str">`✓ ${row[0]} ok`</span>);
+}
 
-<span class="c-fn">print</span>(<span class="c-str">"Proceso completado"</span>)</pre>
+Logger.<span class="c-fn">log</span>(<span class="c-str">"Dashboard actualizado"</span>);</pre>
                 </div>
             </div>
         </div>
@@ -105,6 +103,7 @@ bot = ProcessBot(
                     <div class="skill-badge"><span>📊</span> Excel / VBA</div>
                     <div class="skill-badge"><span>📋</span> Google Sheets</div>
                     <div class="skill-badge"><span>⚙️</span> Apps Script</div>
+                    <div class="skill-badge"><span>📈</span> Dashboards</div>
                     <div class="skill-badge"><span>☁️</span> Google Drive</div>
                 </div>
             </div>
@@ -314,7 +313,7 @@ bot = ProcessBot(
         </div>
     </div>
 
-    <script src="script.js?v=4"></script>
+    <script src="script.js?v=5"></script>
 </body>
 
 </html>
