@@ -22,6 +22,23 @@
     --transition: 0.25s ease;
 }
 
+[data-theme="light"] {
+    --bg:         #f8fafc;
+    --bg-alt:     #ffffff;
+    --surface:    #ffffff;
+    --surface2:   #f1f5f9;
+    --border:     #e2e8f0;
+    --text:       #0f172a;
+    --text-muted: #64748b;
+    --accent:     #0284c7;
+    --accent2:    #6366f1;
+    --green:      #16a34a;
+    --orange:     #ea580c;
+    --shadow:     0 4px 24px rgba(15, 23, 42, .08);
+}
+
+html { transition: background-color 0.3s ease, color 0.3s ease; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
@@ -63,6 +80,12 @@ img, svg { display: block; }
 .nav-link:hover::after { width: 100%; }
 .nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--transition); }
+.nav-actions { display: flex; align-items: center; gap: 0.65rem; }
+.theme-toggle { width: 36px; height: 36px; border-radius: 50%; background: transparent; border: 1px solid var(--border); color: var(--text); cursor: pointer; display: grid; place-items: center; transition: all var(--transition); padding: 0; }
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); background: var(--surface2); }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
 
 /* ===== HERO ===== */
 .hero { position: relative; min-height: 100vh; display: flex; align-items: center; gap: 3.5rem; padding: 7rem 1.5rem 4rem; max-width: 1100px; margin: 0 auto; overflow: hidden; }
@@ -97,6 +120,17 @@ img, svg { display: block; }
 .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; align-content: flex-start; }
 .skill-badge { display: flex; align-items: center; gap: 0.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.55rem 1rem; font-size: 0.9rem; font-weight: 500; transition: all var(--transition); cursor: default; }
 .skill-badge:hover { border-color: var(--accent); background: rgba(56, 189, 248, 0.07); transform: translateY(-2px); }
+
+/* ===== SERVICES ===== */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+.service-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.75rem; display: flex; flex-direction: column; gap: 0.7rem; transition: border-color var(--transition), transform var(--transition); }
+.service-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.service-num { width: 34px; height: 34px; background: rgba(56, 189, 248, 0.13); color: var(--accent); border-radius: 8px; display: grid; place-items: center; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem; }
+.service-card h3 { font-size: 1.18rem; font-weight: 800; letter-spacing: -0.015em; color: var(--text); }
+.service-card > p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 0.4rem; }
+.service-list { display: flex; flex-direction: column; gap: 0.45rem; padding-top: 1rem; border-top: 1px solid var(--border); margin-top: auto; }
+.service-list li { font-size: 0.85rem; color: var(--text-muted); padding-left: 1.2rem; position: relative; }
+.service-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-size: 0.78rem; font-weight: 700; }
 
 /* ===========================================
    PEEK CAROUSEL v2 — más dramático
@@ -250,11 +284,57 @@ img, svg { display: block; }
 .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.55s ease, transform 0.55s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+/* ===========================================
+   LIGHT THEME — overrides para colores duros
+   =========================================== */
+[data-theme="light"] .navbar { background: rgba(255, 255, 255, 0.85); }
+[data-theme="light"] .navbar.scrolled { box-shadow: 0 2px 20px rgba(15, 23, 42, .08); }
+
+/* Code window queda oscuro siempre — más legible para syntax highlighting */
+[data-theme="light"] .code-window { box-shadow: 0 12px 40px rgba(15, 23, 42, .15); border-color: #2d3f55; }
+[data-theme="light"] .code-titlebar { border-bottom-color: #2d3f55; }
+[data-theme="light"] .code-fname { color: #94a3b8; }
+
+/* Tags con accent-color: oscurecer texto en modo claro para contraste */
+[data-theme="light"] .t-blue   { color: #0369a1; background: rgba(2, 132, 199, .09); border-color: rgba(2, 132, 199, .2); }
+[data-theme="light"] .t-purple { color: #6d28d9; background: rgba(109, 40, 217, .09); border-color: rgba(109, 40, 217, .2); }
+[data-theme="light"] .t-green  { color: #15803d; background: rgba(21, 128, 61, .09); border-color: rgba(21, 128, 61, .2); }
+[data-theme="light"] .t-orange { color: #c2410c; background: rgba(194, 65, 12, .09); border-color: rgba(194, 65, 12, .2); }
+[data-theme="light"] .t-gray   { color: #475569; background: rgba(71, 85, 105, .08); border-color: rgba(71, 85, 105, .18); }
+
+/* Bullets de proyecto: oscurecer en modo claro */
+[data-theme="light"] .accent-purple .card-list li::before { color: #6d28d9; }
+[data-theme="light"] .accent-green  .card-list li::before { color: #15803d; }
+[data-theme="light"] .accent-orange .card-list li::before { color: #c2410c; }
+
+/* Botón primario hover — invertir lógica en light mode */
+[data-theme="light"] .btn-primary { color: #ffffff; }
+[data-theme="light"] .btn-primary:hover { background: #0369a1; }
+
+/* Skill badge / service num — usar variable accent dinámica */
+[data-theme="light"] .skill-badge:hover { background: rgba(2, 132, 199, .07); }
+[data-theme="light"] .service-num { background: rgba(2, 132, 199, .1); }
+[data-theme="light"] .service-card:hover { box-shadow: 0 12px 32px rgba(15, 23, 42, .07); }
+[data-theme="light"] .skill-badge:hover { box-shadow: 0 6px 18px rgba(15, 23, 42, .07); }
+
+/* Hero tag */
+[data-theme="light"] .hero-tag { background: rgba(2, 132, 199, .1); border-color: rgba(2, 132, 199, .25); }
+
+/* Hero bg orb más sutil en light */
+[data-theme="light"] .hero-bg-orb { background: radial-gradient(circle, rgba(2, 132, 199, 0.06) 0%, transparent 65%); }
+
+/* Carousel buttons en light */
+[data-theme="light"] .carousel-btn { background: rgba(255, 255, 255, 0.95); }
+[data-theme="light"] .carousel-btn:hover { background: rgba(2, 132, 199, .08); }
+
+/* Modal queda oscuro siempre — el video se ve mejor sobre fondo negro */
+
 /* ===== RESPONSIVE — TABLET ===== */
 @media (max-width: 900px) {
     .hero { flex-direction: column; padding-top: 8rem; gap: 2.5rem; }
     .hero-right { flex: none; width: 100%; max-width: 480px; margin: 0 auto; }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .services-grid { grid-template-columns: 1fr; }
     .project-card { flex: 0 0 80%; }
 }
 

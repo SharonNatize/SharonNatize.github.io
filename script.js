@@ -5,6 +5,17 @@
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// ===== THEME TOGGLE =====
+// (la detección inicial corre inline en el <head> para evitar flash)
+const themeToggle = document.getElementById('themeToggle');
+const htmlEl      = document.documentElement;
+
+themeToggle.addEventListener('click', () => {
+    const next = htmlEl.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+});
+
 // ===== NAVBAR =====
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
