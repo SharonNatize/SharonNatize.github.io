@@ -1,0 +1,13 @@
+# Claude Code local config & transcripts
+.claude/
+
+# Carpeta de referencia de diseño (no se despliega)
+letras_fondo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
