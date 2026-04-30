@@ -235,14 +235,14 @@ img, svg { display: block; }
 
 /* ===== CARD THUMBNAIL ===== */
 .card-thumb { position: relative; height: 220px; overflow: hidden; cursor: pointer; flex-shrink: 0; }
-.thumb-1 { background: linear-gradient(135deg, #1a3a6e 0%, #0f62d4 60%, #1a8fd6 100%); }
-.thumb-2 { background: linear-gradient(135deg, #2a1755 0%, #6d28d9 60%, #9333ea 100%); }
-.thumb-3 { background: linear-gradient(135deg, #0d3d22 0%, #16a34a 60%, #22c55e 100%); }
-.thumb-4 { background: linear-gradient(135deg, #431200 0%, #c2410c 60%, #ea580c 100%); }
+.thumb-1 { background: url('assets/poster-cafe-aroma.jpg')  center/cover no-repeat, linear-gradient(135deg, #1a3a6e 0%, #0f62d4 60%, #1a8fd6 100%); }
+.thumb-2 { background: url('assets/poster-selenium.jpg')    center/cover no-repeat, linear-gradient(135deg, #2a1755 0%, #6d28d9 60%, #9333ea 100%); }
+.thumb-3 { background: url('assets/poster-cajachica.jpg')   center/cover no-repeat, linear-gradient(135deg, #0d3d22 0%, #16a34a 60%, #22c55e 100%); }
+.thumb-4 { background: url('assets/poster-combustible.jpg') center/cover no-repeat, linear-gradient(135deg, #431200 0%, #c2410c 60%, #ea580c 100%); }
 
 .card-thumb-video { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; inset: 0; }
-.card-thumb-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.38); transition: background var(--transition); z-index: 1; }
-.card-thumb:hover .card-thumb-overlay { background: rgba(0, 0, 0, 0.2); }
+.card-thumb-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.25); transition: background var(--transition); z-index: 1; }
+.card-thumb:hover .card-thumb-overlay { background: rgba(0, 0, 0, 0.1); }
 .play-circle { width: 62px; height: 62px; border-radius: 50%; background: rgba(255,255,255,0.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 2px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; transition: all var(--transition); }
 .card-thumb:hover .play-circle { background: rgba(255,255,255,0.3); transform: scale(1.12); }
 

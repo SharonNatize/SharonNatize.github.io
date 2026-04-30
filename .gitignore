@@ -4,6 +4,11 @@
 # Carpeta de referencia de diseño (no se despliega)
 letras_fondo/
 
+# Originales sin comprimir de los posters (los comprimidos sí se versionan)
+assets/*_1.jpg
+assets/*_1.jpeg
+assets/*_1.png
+
 # OS
 .DS_Store
 Thumbs.db
